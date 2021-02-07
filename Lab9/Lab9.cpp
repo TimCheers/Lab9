@@ -11,14 +11,16 @@ using namespace std;
 //2) Определить номер слова, в котором больше всего гласных
 //букв.
 
+
 int main()
 {
     system("chcp 1251>nul");
+    setlocale(LC_ALL, "ru");
     ifstream F1("F1.txt");
     ofstream F2("F2.txt");
-    string chars = "АаЕеЁёИиОоУуЭэЮюЯя";
+    string chars = "AaEeIiUuYyOo";
     string row;
-    int value, numb=0, max;
+    int value, num = 0, max, g = 0, namMax;
     while (!F1.eof())
     {
         int k = 0;
@@ -30,9 +32,26 @@ int main()
             {
                 k++;
             }
-
+            if (row[i] != ' ' && row[i + 1] == ' ')
+            {
+                num++;
+            }
+            if (row[i]!=' ')
+            {
+                for (int j = 0; j < 12; j++)
+                {
+                    if (row[i]==chars[j])
+                    {
+                        g++;
+                    }
+                }
+            }
         }
         k++;
+        if (row[value-1]!=' ')
+        {
+            num++;
+        }
         if (k > 2)
         {
             F2 << row << endl;
@@ -41,7 +60,7 @@ int main()
     }
     F1.close();
 
-    
+    cout << num;
 
     return 0;
 }
