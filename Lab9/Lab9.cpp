@@ -1,6 +1,7 @@
 ﻿#include <iostream>
 #include <fstream>
 #include <string>
+
 using namespace std;
 
 //1 Создать текстовый файл F1 не менее, чем из 10 строк и
@@ -11,6 +12,35 @@ using namespace std;
 //2) Определить номер слова, в котором больше всего гласных
 //букв.
 
+int foo(string chars, string row, int value)
+{
+    int g = 0, max = 0, num = 0, N = 0;
+    for (int i = 0; i < value; i++)
+    {
+        if (row[i]!=' ')
+        {
+            for (int j = 0; j < 13; j++)
+            {
+                if (row[i]==chars[j])
+                {
+                    g++;
+                }
+            }
+        }
+        else
+        {
+            N++;
+            if (max<g)
+            {
+                max = g;
+                num = N;
+            }
+        }
+    }
+    return num;
+}
+
+
 
 int main()
 {
@@ -20,47 +50,53 @@ int main()
     ofstream F2("F2.txt");
     string chars = "AaEeIiUuYyOo";
     string row;
-    int value, num = 0, max, g = 0, namMax;
+    int value, max=0, g = 0, numMax=0, k;
     while (!F1.eof())
     {
-        int k = 0;
+        k = 0;
         getline(F1, row);
         value = row.length();
-        for (int i = 1; i < value; i++)
+        for (int i = 0; i < value; i++)
         {
-            if (row[i] == ' ' && row[i - 1] != ' ')
+            if (row[i] != ' ')
             {
-                k++;
-            }
-            if (row[i] != ' ' && row[i + 1] == ' ')
-            {
-                num++;
-            }
-            if (row[i]!=' ')
-            {
-                for (int j = 0; j < 12; j++)
+                for (int j = 0; j < 13; j++)
                 {
-                    if (row[i]==chars[j])
+                    if (row[i] == chars[j])
                     {
                         g++;
                     }
                 }
             }
+            else
+            {
+                N++;
+                if (max < g)
+                {
+                    max = g;
+                    num = N;
+                }
+            }
         }
-        k++;
+        for (int i = 0; i < value; i++)
+        {
+            if (row[i] == ' ' && row[i - 1] != ' ')
+            {
+                k++;
+            }
+        }
         if (row[value-1]!=' ')
         {
-            num++;
+            k++;
         }
         if (k > 2)
         {
             F2 << row << endl;
         }
-
+        cout << k << endl;
     }
     F1.close();
-
-    cout << num;
+    F2.close();
 
     return 0;
 }
