@@ -12,35 +12,42 @@ using namespace std;
 //2) Определить номер слова, в котором больше всего гласных
 //букв.
 
-int foo(string chars, string row, int value)
+
+int CountW(const string row, const int value)
 {
-    int g = 0, max = 0, num = 0, N = 0;
-    for (int i = 0; i < value; i++)
+    int k = 0;
+    int i = 0;
+    for (int i = 1; i < value; i++)
     {
-        if (row[i]!=' ')
+        if (row[i] == ' ' && row[i - 1] != ' ')
         {
-            for (int j = 0; j < 13; j++)
-            {
-                if (row[i]==chars[j])
-                {
-                    g++;
-                }
-            }
-        }
-        else
-        {
-            N++;
-            if (max<g)
-            {
-                max = g;
-                num = N;
-            }
+            k++;
         }
     }
-    return num;
+    if (row[value - 1] != ' ')
+    {
+        k++;
+    }
+    return k;
 }
 
 
+void foo(string*NewSTR,string row, int value)
+{
+    int j = 0;
+    for (int i = 0; i < value; i++)
+    {
+        NewSTR[i] = "";
+        while (row[j]==' ')
+        {
+            j++;
+        }
+        while (row[j]!=' '&& row[j] != '\n'&& row[j] != '\0')
+        {
+            NewSTR[i] += row[j++];
+        }
+    }
+}
 
 int main()
 {
@@ -53,47 +60,20 @@ int main()
     int value, max=0, g = 0, numMax=0, k;
     while (!F1.eof())
     {
-        k = 0;
         getline(F1, row);
         value = row.length();
-        for (int i = 0; i < value; i++)
-        {
-            if (row[i] != ' ')
-            {
-                for (int j = 0; j < 13; j++)
-                {
-                    if (row[i] == chars[j])
-                    {
-                        g++;
-                    }
-                }
-            }
-            else
-            {
-                N++;
-                if (max < g)
-                {
-                    max = g;
-                    num = N;
-                }
-            }
-        }
-        for (int i = 0; i < value; i++)
-        {
-            if (row[i] == ' ' && row[i - 1] != ' ')
-            {
-                k++;
-            }
-        }
-        if (row[value-1]!=' ')
-        {
-            k++;
-        }
+        k = CountW(row, value);               //количество слов в строке
+        string *NewSTR = new string[k];
+        foo(NewSTR, row, value);
         if (k > 2)
         {
             F2 << row << endl;
         }
         cout << k << endl;
+        for (int i = 0; i < 3; i++)
+        {
+            cout << NewSTR[i];
+        }
     }
     F1.close();
     F2.close();
