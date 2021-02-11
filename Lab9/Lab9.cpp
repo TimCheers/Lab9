@@ -32,10 +32,10 @@ int CountW(const string row, const int value)
 }
 
 
-void foo(string*NewSTR,string row, int value)
+void separation(string*NewSTR,string row, int k)
 {
     int j = 0;
-    for (int i = 0; i < value; i++)
+    for (int i = 0; i < k; i++)
     {
         NewSTR[i] = "";
         while (row[j]==' ')
@@ -49,6 +49,32 @@ void foo(string*NewSTR,string row, int value)
     }
 }
 
+int foo(string *NewSTR, int k, string chars)
+{
+    int g = 0, num, max = 0;
+    for (int i = 0; i < k; i++)                             //итерация по строке (слова в строке)
+    {
+        for (int j = 0; j < NewSTR[i].length()-1; j++)      //итерация по слову (буквы в слове)
+        {
+            for (int l = 0; l < 12; l++)                    //сравнение каждой буквы с гласными
+            {
+                if (NewSTR[i][j]==chars[l])
+                {
+                    g++;
+                }
+            }
+        }
+        if (max < g)
+        {
+            max = g;
+            num = i + 1;
+        }
+        g = 0;
+    }
+
+    return num;
+}
+
 int main()
 {
     system("chcp 1251>nul");
@@ -57,23 +83,26 @@ int main()
     ofstream F2("F2.txt");
     string chars = "AaEeIiUuYyOo";
     string row;
-    int value, max=0, g = 0, numMax=0, k;
+    int value, numMax = 0, k, nums = 0;
     while (!F1.eof())
     {
         getline(F1, row);
         value = row.length();
         k = CountW(row, value);               //количество слов в строке
         string *NewSTR = new string[k];
-        foo(NewSTR, row, value);
+        separation(NewSTR, row, k);
+        numMax = foo(NewSTR, k, chars);
+        cout << numMax<<endl;
         if (k > 2)
         {
             F2 << row << endl;
         }
         cout << k << endl;
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < k; i++)
         {
-            cout << NewSTR[i];
+            cout << NewSTR[i]<<"\n";
         }
+        cout << endl;
     }
     F1.close();
     F2.close();
