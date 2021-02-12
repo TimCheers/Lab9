@@ -81,13 +81,13 @@ int main()
             if (gp < g)
             {
                 num = numMax + kol;
+                gp = g;
             }
             if (k > 2)
             {
                 F2 << row << endl;
             }
             kol += k;
-            gp = g;
             g = 0;
         }
         cout << "Номер слова, в котором больше всего гласных букв: " << num << endl;
